@@ -7,10 +7,10 @@
 cd /home/user/LCL
 
 # 의존성 설치
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 
 # 패키지 설치
-pip install -e .
+uv pip install -e .
 ```
 
 ## 기본 사용법
