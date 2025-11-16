@@ -4,32 +4,14 @@ M1: Baseline 실험
 - 무압축 KV 캐시로 다양한 컨텍스트 길이에서 성능 측정
 """
 
-import sys
-import os
-from pathlib import Path
-
-# Add src directory to path
-# Try multiple methods to find the project root
-script_dir = Path(__file__).resolve().parent  # resolve() handles symlinks
-project_root = script_dir.parent
-src_dir = project_root / "src"
-
-# Fallback: try current working directory
-if not src_dir.exists():
-    cwd_src = Path.cwd() / "src"
-    if cwd_src.exists():
-        src_dir = cwd_src
-        project_root = Path.cwd()
-
-sys.path.insert(0, str(src_dir))
-
 import torch
 import argparse
-from models import SmolLMLoader, InferenceEngine
-from analysis import KVAnalyzer
-from evaluation import PerformanceMetrics, QualityMetrics
 import logging
 import json
+
+from llm_kv_zram.models import SmolLMLoader, InferenceEngine
+from llm_kv_zram.analysis import KVAnalyzer
+from llm_kv_zram.evaluation import PerformanceMetrics, QualityMetrics
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

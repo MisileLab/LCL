@@ -3,35 +3,21 @@
 ## 설치
 
 ```bash
-# 프로젝트 디렉토리로 이동 (경로는 환경에 따라 다를 수 있음)
+# 1. 프로젝트 디렉토리로 이동
 cd /path/to/LCL  # 예: /workspace/LCL 또는 /home/user/LCL
 
-# 방법 1: 패키지 설치 (권장)
+# 2. 패키지 설치 (개발 모드)
 uv pip install -r requirements.txt
 uv pip install -e .
-
-# 방법 2: PYTHONPATH만 설정 (빠른 시작, 가상환경 사용 시 추천)
-source setup_env.sh
 ```
 
-### 가상환경 사용 시 (추천)
-
-가상환경을 사용하는 경우:
-
+**주의**: 가상환경을 사용하는 경우, 가상환경을 먼저 활성화하세요:
 ```bash
-# 1. 프로젝트 디렉토리로 이동
-cd /path/to/LCL
+# 예: /venv/main을 사용하는 경우
+source /venv/main/bin/activate
 
-# 2. 환경 변수 설정 (매번 새 세션마다 실행)
-source setup_env.sh
-
-# 3. 스크립트 실행
-python scripts/analyze_kv.py --context-length 1024
-```
-
-또는 wrapper 스크립트 사용:
-```bash
-./run_with_venv.sh python scripts/analyze_kv.py --context-length 1024
+# 또는 직접 Python 경로 지정
+/venv/main/bin/python -m pip install -e .
 ```
 
 ## 기본 사용법

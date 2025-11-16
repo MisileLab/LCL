@@ -5,32 +5,14 @@ M2: Level 1 압축 실험
 - 압축비, 속도, 품질 측정
 """
 
-import sys
-import os
-from pathlib import Path
-
-# Add src directory to path
-# Try multiple methods to find the project root
-script_dir = Path(__file__).resolve().parent  # resolve() handles symlinks
-project_root = script_dir.parent
-src_dir = project_root / "src"
-
-# Fallback: try current working directory
-if not src_dir.exists():
-    cwd_src = Path.cwd() / "src"
-    if cwd_src.exists():
-        src_dir = cwd_src
-        project_root = Path.cwd()
-
-sys.path.insert(0, str(src_dir))
-
 import torch
 import argparse
-from models import SmolLMLoader, InferenceEngine
-from compression import KVPageConfig, KVTransform, NearLosslessQuantizer, BitPacker
-from analysis import KVAnalyzer
 import logging
 import json
+
+from llm_kv_zram.models import SmolLMLoader, InferenceEngine
+from llm_kv_zram.compression import KVPageConfig, KVTransform, NearLosslessQuantizer, BitPacker
+from llm_kv_zram.analysis import KVAnalyzer
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
