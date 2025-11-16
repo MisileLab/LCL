@@ -35,8 +35,12 @@ SmolLM3-3B-128k 기반 KV 캐시 압축 시스템 구현
 ## 설치
 
 ```bash
+# 방법 1: 패키지 설치 (권장)
 uv pip install -r requirements.txt
 uv pip install -e .
+
+# 방법 2: PYTHONPATH 설정 (간단)
+source setup_env.sh
 ```
 
 ## 사용법

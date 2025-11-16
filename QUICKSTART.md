@@ -6,11 +6,17 @@
 # 저장소 클론 (이미 되어 있음)
 cd /home/user/LCL
 
-# 의존성 설치
+# 방법 1: 패키지 설치 (권장)
 uv pip install -r requirements.txt
-
-# 패키지 설치
 uv pip install -e .
+
+# 방법 2: PYTHONPATH만 설정 (빠른 시작)
+source setup_env.sh
+```
+
+**주의**: 가상환경을 사용하는 경우, 방법 2를 사용하세요:
+```bash
+source setup_env.sh
 ```
 
 ## 기본 사용법
