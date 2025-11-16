@@ -2,22 +2,50 @@
 
 ## 설치
 
+### 방법 1: 간단 설치 (권장)
+
+```bash
+# 프로젝트 디렉토리로 이동
+cd /workspace/LCL  # 또는 your/path/to/LCL
+
+# 설치 스크립트 실행
+bash install.sh
+```
+
+### 방법 2: 수동 설치
+
 ```bash
 # 1. 프로젝트 디렉토리로 이동
-cd /path/to/LCL  # 예: /workspace/LCL 또는 /home/user/LCL
+cd /workspace/LCL  # 예: /workspace/LCL 또는 /home/user/LCL
 
-# 2. 패키지 설치 (개발 모드)
+# 2. 의존성 설치
 uv pip install -r requirements.txt
+
+# 3. 패키지 설치 (개발 모드)
 uv pip install -e .
 ```
 
-**주의**: 가상환경을 사용하는 경우, 가상환경을 먼저 활성화하세요:
+### 가상환경 사용 시
+
 ```bash
 # 예: /venv/main을 사용하는 경우
-source /venv/main/bin/activate
+cd /workspace/LCL
 
-# 또는 직접 Python 경로 지정
+# uv 사용
+uv pip install -e .
+
+# 또는 pip 직접 사용
 /venv/main/bin/python -m pip install -e .
+```
+
+### 설치 확인
+
+```bash
+# Import 테스트
+python -c "from models import SmolLMLoader; print('✓ 설치 성공!')"
+
+# 스크립트 테스트
+python scripts/analyze_kv.py --help
 ```
 
 ## 기본 사용법
