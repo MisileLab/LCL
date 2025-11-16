@@ -100,13 +100,17 @@ def test_level1_compression(
 
     # 메타데이터 크기 (간단히 추정)
     num_heads = k.shape[0]
-    metadata_size = num_heads * 2 * 4 * 2  # scale/zero per head, K/V
+    metadata_size = num_heads * 2 * 4 * 2  # scale/zero per head, K/V, float32
 
     total_compressed = compressed_size + metadata_size
 
-    compression_ratio = (k.numel() * 2 + v.numel() * 2) / total_compressed
+    # 원본 크기 (한 레이어의 K, V)
+    original_layer_size = k.numel() * k.element_size() + v.numel() * v.element_size()
 
-    logger.info(f"\nCompressed size: {loader.format_memory(total_compressed)}")
+    compression_ratio = original_layer_size / total_compressed
+
+    logger.info(f"\nOriginal size (1 layer): {loader.format_memory(original_layer_size)}")
+    logger.info(f"Compressed size (1 layer): {loader.format_memory(total_compressed)}")
     logger.info(f"Compression ratio: {compression_ratio:.2f}x")
 
     # 복원
@@ -135,7 +139,8 @@ def test_level1_compression(
         "context_length": context_length,
         "bits": bits,
         "transform_type": transform_type,
-        "original_size_bytes": original_size,
+        "original_size_bytes": int(original_layer_size),
+        "total_kv_size_bytes": original_size,  # All layers
         "compressed_size_bytes": int(total_compressed),
         "compression_ratio": float(compression_ratio),
         "k_mae": float(k_error),

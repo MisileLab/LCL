@@ -134,16 +134,20 @@ class NearLosslessQuantizer:
 
         if self.use_symmetric:
             # 대칭 양자화: abs_max 사용
+            # q = round(x / scale) + qmax/2, 범위: [0, qmax]
+            # x = (q - qmax/2) * scale
             abs_max = torch.max(tmin.abs(), tmax.abs())
             scale = abs_max / (qmax / 2)
+            scale = torch.clamp(scale, min=1e-8)  # Avoid division by zero
             zero_point = torch.zeros_like(scale) + (qmax / 2)
         else:
             # 비대칭 양자화
+            # scale = (tmax - tmin) / (qmax - qmin)
+            # zero_point를 계산하여 tmin이 qmin으로 매핑되도록 함
             scale = (tmax - tmin) / (qmax - qmin)
+            scale = torch.clamp(scale, min=1e-8)  # Avoid division by zero
             zero_point = qmin - tmin / scale
-
-        # Avoid division by zero
-        scale = torch.where(scale == 0, torch.ones_like(scale), scale)
+            zero_point = torch.clamp(zero_point, qmin, qmax)
 
         # Reshape to (num_heads, 1, 1)
         scale = scale.unsqueeze(-1)
@@ -170,13 +174,13 @@ class NearLosslessQuantizer:
         if self.use_symmetric:
             abs_max = max(tmin.abs(), tmax.abs())
             scale = abs_max / (qmax / 2)
+            scale = max(scale, torch.tensor(1e-8, device=tensor.device))
             zero_point = torch.tensor(qmax / 2, device=tensor.device)
         else:
             scale = (tmax - tmin) / (qmax - qmin)
+            scale = max(scale, torch.tensor(1e-8, device=tensor.device))
             zero_point = qmin - tmin / scale
-
-        if scale == 0:
-            scale = torch.tensor(1.0, device=tensor.device)
+            zero_point = torch.clamp(zero_point, qmin, qmax)
 
         return scale, zero_point
 
