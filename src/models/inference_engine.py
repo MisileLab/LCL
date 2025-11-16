@@ -147,8 +147,8 @@ class InferenceEngine:
         """
         # 입력 토큰화
         inputs = self.tokenizer(prompt, return_tensors="pt")
-        input_ids = inputs["input_ids"]
-        attention_mask = inputs["attention_mask"]
+        input_ids = inputs["input_ids"].to(self.device)
+        attention_mask = inputs["attention_mask"].to(self.device)
 
         batch_size, prefill_length = input_ids.shape
 
