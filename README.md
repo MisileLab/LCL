@@ -34,11 +34,27 @@ SmolLM3-3B-128k 기반 KV 캐시 압축 시스템 구현
 
 ## 설치
 
+### 간단 설치 (권장)
+
 ```bash
-# 의존성 및 패키지 설치
-uv pip install -r requirements.txt
-uv pip install -e .
+cd /workspace/LCL  # 또는 프로젝트 디렉토리
+bash install.sh
 ```
+
+### 수동 설치
+
+```bash
+# 1. 의존성 설치
+uv pip install -r requirements.txt
+
+# 2. 패키지 설치 (개발 모드)
+uv pip install -e .
+
+# 3. 설치 확인
+python -c "from models import SmolLMLoader; print('✓ 설치 성공!')"
+```
+
+자세한 설치 가이드는 [QUICKSTART.md](QUICKSTART.md)를 참조하세요.
 
 ## 사용법
 
@@ -46,25 +62,49 @@ uv pip install -e .
 
 ```bash
 # KV 캐시 분석
-python scripts/analyze_kv.py --model HuggingFaceTB/SmolLM2-1.7B-Instruct --context-length 8192
+python scripts/analyze_kv.py \
+  --model HuggingFaceTB/SmolLM2-1.7B-Instruct \
+  --context-length 8192 \
+  --dump
 
 # Baseline 성능 측정
-python scripts/run_baseline.py --context-length 8192
+python scripts/run_baseline.py \
+  --model HuggingFaceTB/SmolLM2-1.7B-Instruct \
+  --context-length 8192 \
+  --max-new-tokens 100 \
+  --num-runs 3
+
+# 다양한 컨텍스트 길이 실험
+python experiments/m1_baseline.py \
+  --context-lengths 1024 2048 4096 8192 \
+  --output m1_results.json
 ```
 
 ### M2: Level 1 압축 실험
 
 ```bash
-# Level 1 압축 적용 inference
-python experiments/m2_level1.py --context-length 32768 --page-size 128
+# 4-bit 양자화 + 다양한 변환 실험
+python experiments/m2_level1.py \
+  --model HuggingFaceTB/SmolLM2-1.7B-Instruct \
+  --context-length 8192 \
+  --bits 4 6 8 \
+  --transforms none normalize differencing \
+  --output m2_results.json
 ```
 
 ### M3: Level 2 압축 실험
 
 ```bash
-# Level 2 압축 비교
-python experiments/m3_level2.py --compare-levels
+# 엔트로피 코딩 방법 비교
+python experiments/m3_level2.py \
+  --model HuggingFaceTB/SmolLM2-1.7B-Instruct \
+  --context-length 8192 \
+  --bits 4 \
+  --entropy-methods huffman rle simple \
+  --output m3_results.json
 ```
+
+자세한 사용법은 [QUICKSTART.md](QUICKSTART.md)를 참조하세요.
 
 ## 프로젝트 구조
 
