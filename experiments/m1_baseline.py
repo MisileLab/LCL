@@ -5,7 +5,14 @@ M1: Baseline 실험
 """
 
 import sys
-sys.path.insert(0, "/home/user/LCL/src")
+import os
+from pathlib import Path
+
+# Add src directory to path
+script_dir = Path(__file__).parent.absolute()
+project_root = script_dir.parent
+src_dir = project_root / "src"
+sys.path.insert(0, str(src_dir))
 
 import torch
 import argparse
