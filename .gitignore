@@ -212,7 +212,7 @@ __marimo__/
 *.bin
 *.safetensors
 checkpoints/
-models/
+/downloaded_models/
 kv_dumps/
 kv_analysis_output/
 *_results.json
