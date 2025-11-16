@@ -9,9 +9,9 @@ import argparse
 import logging
 import json
 
-from llm_kv_zram.models import SmolLMLoader, InferenceEngine
-from llm_kv_zram.analysis import KVAnalyzer
-from llm_kv_zram.evaluation import PerformanceMetrics, QualityMetrics
+from models import SmolLMLoader, InferenceEngine
+from analysis import KVAnalyzer
+from evaluation import PerformanceMetrics, QualityMetrics
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

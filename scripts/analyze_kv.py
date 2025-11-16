@@ -9,8 +9,8 @@ import torch
 import argparse
 import logging
 
-from llm_kv_zram.models import SmolLMLoader, InferenceEngine
-from llm_kv_zram.analysis import KVAnalyzer, KVDumper
+from models import SmolLMLoader, InferenceEngine
+from analysis import KVAnalyzer, KVDumper
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

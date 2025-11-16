@@ -10,8 +10,8 @@ import argparse
 import logging
 import json
 
-from llm_kv_zram.models import SmolLMLoader, InferenceEngine
-from llm_kv_zram.compression import KVTransform, NearLosslessQuantizer, BitPacker, EntropyCoder
+from models import SmolLMLoader, InferenceEngine
+from compression import KVTransform, NearLosslessQuantizer, BitPacker, EntropyCoder
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

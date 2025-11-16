@@ -6,10 +6,10 @@ KV 페이지 관리자
 
 import torch
 from typing import Dict, List, Optional, Tuple
-from ..compression.kv_page import KVPage, KVPageConfig
-from ..compression.level1.transform import KVTransform
-from ..compression.level1.quantization import NearLosslessQuantizer
-from ..compression.level1.bit_packing import BitPacker
+from compression.kv_page import KVPage, KVPageConfig
+from compression.level1.transform import KVTransform
+from compression.level1.quantization import NearLosslessQuantizer
+from compression.level1.bit_packing import BitPacker
 from .policies import CachePolicy, LRUPolicy
 import logging
 
