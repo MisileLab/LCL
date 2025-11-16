@@ -9,9 +9,18 @@ import os
 from pathlib import Path
 
 # Add src directory to path
-script_dir = Path(__file__).parent.absolute()
+# Try multiple methods to find the project root
+script_dir = Path(__file__).resolve().parent  # resolve() handles symlinks
 project_root = script_dir.parent
 src_dir = project_root / "src"
+
+# Fallback: try current working directory
+if not src_dir.exists():
+    cwd_src = Path.cwd() / "src"
+    if cwd_src.exists():
+        src_dir = cwd_src
+        project_root = Path.cwd()
+
 sys.path.insert(0, str(src_dir))
 
 import torch
